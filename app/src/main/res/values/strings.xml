@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="mark_as_favorite_btn_label">Mark As \n Favorite</string>
+    <string name="trailers_txt">Trailers:</string>
 </resources>
