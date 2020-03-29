@@ -1,133 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailActivity">
+    tools:context=".ui.detail.DetailActivity">
 
-    <LinearLayout
-        android:id="@+id/title_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/movie_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                tools:text="Chappie" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/thumbnail_iv"
+            android:layout_width="150dp"
+            android:layout_height="230dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_layout"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/movie_title_tv"
+            android:id="@+id/year_of_release_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/thumbnail_iv"
+            app:layout_constraintTop_toTopOf="@+id/thumbnail_iv"
+            tools:text="2015" />
+
+        <TextView
+            android:id="@+id/ratings_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/year_of_release_tv"
+            app:layout_constraintTop_toBottomOf="@+id/year_of_release_tv"
+            tools:text="8.1/10" />
+
+        <Button
+            android:id="@+id/btn_favorite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/mark_as_favorite_btn_label"
             android:textColor="@android:color/white"
-            android:textSize="32sp"
-            tools:text="Chappie" />
+            app:layout_constraintStart_toStartOf="@+id/ratings_tv"
+            app:layout_constraintTop_toBottomOf="@+id/ratings_tv" />
 
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/thumbnail_iv"
-        android:layout_width="150dp"
-        android:layout_height="230dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_layout"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    <TextView
-        android:id="@+id/year_of_release_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/thumbnail_iv"
-        app:layout_constraintTop_toTopOf="@+id/thumbnail_iv"
-        tools:text="2015" />
-
-    <TextView
-        android:id="@+id/running_time_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="18sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintStart_toStartOf="@+id/year_of_release_tv"
-        app:layout_constraintTop_toBottomOf="@+id/year_of_release_tv"
-        tools:text="120min" />
-
-    <TextView
-        android:id="@+id/ratings_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/running_time_tv"
-        app:layout_constraintTop_toBottomOf="@+id/running_time_tv"
-        tools:text="8.1/10" />
-
-    <Button
-        android:id="@+id/btn_favorite"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/colorPrimary"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/mark_as_favorite_btn_label"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="@+id/ratings_tv"
-        app:layout_constraintTop_toBottomOf="@+id/ratings_tv" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thumbnail_iv"
-        tools:text="Every child comes into the world full of promise,
+        <TextView
+            android:id="@+id/plot_synopsis_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/thumbnail_iv"
+            tools:text="Every child comes into the world full of promise,
                     and none more so than Chappie: he is gifted, special,
                     a prodigy. Chappie he is a robot." />
 
-    <View
-        android:id="@+id/horizontal_line"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        <View
+            android:id="@+id/horizontal_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="@+id/plot_synopsis_tv"
+            app:layout_constraintStart_toStartOf="@+id/plot_synopsis_tv"
+            app:layout_constraintTop_toBottomOf="@+id/plot_synopsis_tv" />
 
-    <TextView
-        android:id="@+id/trailer_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/trailers_txt"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/horizontal_line"
-        app:layout_constraintTop_toBottomOf="@+id/horizontal_line" />
+        <TextView
+            android:id="@+id/trailer_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/trailers_txt"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/horizontal_line"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_line" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trailers_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="@+id/horizontal_line"
-        app:layout_constraintStart_toStartOf="@+id/horizontal_line"
-        app:layout_constraintTop_toBottomOf="@+id/trailer_label"
-        tools:listitem="@layout/trailer_item_layout" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trailers_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="@+id/horizontal_line"
+            app:layout_constraintStart_toStartOf="@+id/horizontal_line"
+            app:layout_constraintTop_toBottomOf="@+id/trailer_label"
+            tools:listitem="@layout/trailer_item_layout" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
