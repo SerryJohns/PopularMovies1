@@ -75,6 +75,7 @@
             android:paddingRight="16dp"
             android:text="@string/mark_as_favorite_btn_label"
             android:textColor="@android:color/white"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/ratings_tv"
             app:layout_constraintTop_toBottomOf="@+id/ratings_tv" />
 
@@ -109,6 +110,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/trailers_txt"
             android:textSize="18sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/horizontal_line"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_line" />
 
@@ -117,6 +119,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="@+id/horizontal_line"
             app:layout_constraintStart_toStartOf="@+id/horizontal_line"
