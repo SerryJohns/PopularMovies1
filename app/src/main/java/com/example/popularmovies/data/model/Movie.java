@@ -1,4 +1,4 @@
-package com.example.popularmovies.data;
+package com.example.popularmovies.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.time.LocalDate;
 
 public class Movie implements Parcelable {
+    private Integer ID;
     private String title;
     private LocalDate releaseDate;
     private String posterPath;
@@ -13,7 +14,8 @@ public class Movie implements Parcelable {
     private boolean favorite = false;
     private Double voteAverage;
 
-    public Movie(String title, LocalDate releaseDate, String posterPath, String overview, Double voteAverage) {
+    public Movie(Integer ID, String title, LocalDate releaseDate, String posterPath, String overview, Double voteAverage) {
+        this.ID = ID;
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
@@ -22,6 +24,7 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
+        ID = in.readInt();
         title = in.readString();
         posterPath = in.readString();
         overview = in.readString();
@@ -49,12 +52,17 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(ID);
         dest.writeString(title);
         dest.writeString(posterPath);
         dest.writeString(overview);
         dest.writeByte((byte) (favorite ? 1 : 0));
         dest.writeDouble(voteAverage);
         dest.writeSerializable(releaseDate);
+    }
+
+    public Integer getID() {
+        return ID;
     }
 
     private void setPosterPath(String posterPath) {

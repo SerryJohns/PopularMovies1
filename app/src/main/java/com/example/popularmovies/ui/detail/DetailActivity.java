@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popularmovies.R;
-import com.example.popularmovies.data.Movie;
+import com.example.popularmovies.data.model.Movie;
 import com.example.popularmovies.ui.main.MainActivity;
 import com.squareup.picasso.Picasso;
 
