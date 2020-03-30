@@ -9,6 +9,10 @@ Stage one of the Popular Movies App with the Main Discovery Screen, a details vi
 * Add the API_Key to the `gradle.properties` file in this form;
   
   ```java
+  org.gradle.jvmargs=-Xmx1536m
+  android.useAndroidX=true
+  android.enableJetifier=true
+
   POPULAR_MOVIES_API_KEY="xxxx_your_api_key_xxxx"
   ```
 
