@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popularmovies.R;
-import com.example.popularmovies.data.Movie;
+import com.example.popularmovies.data.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -65,6 +65,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public void setMovieList(List<Movie> movieList) {
         this.movieList = movieList;
         this.notifyDataSetChanged();
+    }
+
+    public List<Movie> getMovieList() {
+        return movieList;
     }
 
     public interface OnItemClickListener {
