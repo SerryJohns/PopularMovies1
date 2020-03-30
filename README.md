@@ -4,7 +4,7 @@ Stage one of the Popular Movies App with the Main Discovery Screen, a details vi
 
 ### Project Set up
 
-* Generate an API_KEY from [themoviedb.org](https://developers.themoviedb.org/](https://developers.themoviedb.org/)
+* Generate an API_KEY from [themoviedb.org](https://developers.themoviedb.org/)
 
 * Add the API_Key to the `gradle.properties` file in this form;
   
