@@ -117,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 toggleProgress(true);
                 presenter.fetchTopRatedMovies();
                 return true;
+            case R.id.favorites:
+                // TODO Show favorite movies
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

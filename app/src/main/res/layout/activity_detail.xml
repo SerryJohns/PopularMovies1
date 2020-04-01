@@ -65,17 +65,17 @@
             app:layout_constraintTop_toBottomOf="@+id/year_of_release_tv"
             tools:text="8.1/10" />
 
-        <Button
+        <ImageView
             android:id="@+id/btn_favorite"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
-            android:background="@color/colorPrimary"
+            android:background="?selectableItemBackground"
+            android:focusable="true"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="@string/mark_as_favorite_btn_label"
-            android:textColor="@android:color/white"
-            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_star_black_24dp"
             app:layout_constraintStart_toStartOf="@+id/ratings_tv"
             app:layout_constraintTop_toBottomOf="@+id/ratings_tv" />
 
@@ -110,7 +110,6 @@
             android:layout_marginTop="8dp"
             android:text="@string/trailers_txt"
             android:textSize="18sp"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/horizontal_line"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_line" />
 
@@ -119,12 +118,36 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="@+id/horizontal_line"
             app:layout_constraintStart_toStartOf="@+id/horizontal_line"
             app:layout_constraintTop_toBottomOf="@+id/trailer_label"
+            tools:itemCount="2"
             tools:listitem="@layout/trailer_item_layout" />
+
+        <TextView
+            android:id="@+id/reviews_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/reviews_label_txt"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/trailers_recycler_view"
+            app:layout_constraintTop_toBottomOf="@+id/trailers_recycler_view" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movie_reviews"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reviews_label"
+            tools:itemCount="4"
+            tools:listitem="@layout/user_reviews_item_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -3,7 +3,6 @@ package com.example.popularmovies.ui.detail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popularmovies.R;
@@ -24,9 +24,10 @@ public class DetailActivity extends AppCompatActivity {
     private TextView title;
     private TextView releaseYear;
     private TextView rating;
-    private Button btnFavourite;
+    private ImageView btnFavourite;
     private TextView plotSynopsis;
     private RecyclerView trailersRecyclerView;
+    private RecyclerView reviewsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +66,10 @@ public class DetailActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.movie_title_tv);
         releaseYear = (TextView) findViewById(R.id.year_of_release_tv);
         rating = (TextView) findViewById(R.id.ratings_tv);
-        btnFavourite = (Button) findViewById(R.id.btn_favorite);
+        btnFavourite = (ImageView) findViewById(R.id.btn_favorite);
         plotSynopsis = (TextView) findViewById(R.id.plot_synopsis_tv);
         trailersRecyclerView = (RecyclerView) findViewById(R.id.trailers_recycler_view);
+        reviewsRecyclerView = (RecyclerView) findViewById(R.id.movie_reviews);
     }
 
     private void showMovieDetails(Movie movie) {
@@ -86,7 +88,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
     }

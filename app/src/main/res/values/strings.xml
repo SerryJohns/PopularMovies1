@@ -9,4 +9,7 @@
     <string name="rating_txt">%1$s/10</string>
     <string name="release_year_txt">%d</string>
     <string name="detail_error_message">Movie Data not available!</string>
+    <string name="favorites_menu">Favorites</string>
+    <string name="reviews_label_txt">User Reviews:</string>
+    <string name="written_by_txt">Written by: %1$s</string>
 </resources>
