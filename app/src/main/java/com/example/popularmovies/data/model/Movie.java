@@ -3,28 +3,44 @@ package com.example.popularmovies.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDate;
 
+@Entity(tableName = "movie")
 public class Movie implements Parcelable {
-    private Integer ID;
-    private String title;
+    @PrimaryKey
+    @ColumnInfo(name = "movie_id")
+    private Integer movieId;
+
+    @ColumnInfo(name = "release_date")
     private LocalDate releaseDate;
+
+    @ColumnInfo(name = "poster_path")
     private String posterPath;
+
+    private String title;
     private String overview;
     private boolean favorite = false;
+
+    @ColumnInfo(name = "vote_average")
     private Double voteAverage;
 
-    public Movie(Integer ID, String title, LocalDate releaseDate, String posterPath, String overview, Double voteAverage) {
-        this.ID = ID;
+    @Ignore
+    public Movie(Integer movieId, String title, LocalDate releaseDate, String posterPath, String overview, Double voteAverage) {
+        this.movieId = movieId;
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.voteAverage = voteAverage;
-        this.setPosterPath(posterPath);
+        this.posterPath = this.setPosterPath(posterPath);
     }
 
     protected Movie(Parcel in) {
-        ID = in.readInt();
+        movieId = in.readInt();
         title = in.readString();
         posterPath = in.readString();
         overview = in.readString();
@@ -52,7 +68,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(ID);
+        dest.writeInt(movieId);
         dest.writeString(title);
         dest.writeString(posterPath);
         dest.writeString(overview);
@@ -61,12 +77,12 @@ public class Movie implements Parcelable {
         dest.writeSerializable(releaseDate);
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getMovieId() {
+        return movieId;
     }
 
-    private void setPosterPath(String posterPath) {
-        this.posterPath = "https://image.tmdb.org/t/p/w342/" + posterPath;
+    private String setPosterPath(String posterPath) {
+        return "https://image.tmdb.org/t/p/w342/" + posterPath;
     }
 
     public void setFavorite(boolean favorite) {

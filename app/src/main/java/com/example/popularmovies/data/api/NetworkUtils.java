@@ -1,7 +1,6 @@
-package com.example.popularmovies.utils;
+package com.example.popularmovies.data.api;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.popularmovies.BuildConfig;
 
@@ -11,7 +10,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.URL;
@@ -37,26 +35,16 @@ public class NetworkUtils {
         }
     }
 
-    private static URL buildUrl(String path) {
-        Uri uri = Uri.parse(MOVIE_DB_BASE_URL).buildUpon()
-                .appendEncodedPath(path)
+    public static Uri getBaseUrl() {
+        return Uri.parse(MOVIE_DB_BASE_URL).buildUpon()
                 .appendQueryParameter("api_key", API_KEY)
                 .build();
-        try {
-            return new URL(uri.toString());
-        } catch (MalformedURLException e) {
-            Log.e(TAG, "buildUrl: " + e.getMessage(), e);
-            e.printStackTrace();
-        }
-        return null;
     }
 
-    public static String getResponseFromHttpUrl(String path) throws IOException {
-        URL url = buildUrl(path);
-
-        if (url == null) return null;
-
+    public static String getResponseFromHttpUrl(Uri path) throws IOException {
+        URL url = new URL(path.toString());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
         try {
             InputStream inputStream = urlConnection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
