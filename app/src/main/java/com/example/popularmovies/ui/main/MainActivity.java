@@ -12,38 +12,45 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popularmovies.R;
-import com.example.popularmovies.data.Repository;
 import com.example.popularmovies.data.model.Movie;
 import com.example.popularmovies.ui.detail.DetailActivity;
+import com.example.popularmovies.utils.InjectorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
+public class MainActivity extends AppCompatActivity {
     public static final String MOVIE_EXTRA = "MOVIE_EXTRA";
     private static final String SAVED_MOVIES_STATE = "SAVED_MOVIES_STATE";
     private MoviesAdapter moviesAdapter;
     private ProgressBar progressBar;
     private TextView errMsg;
-    private MainActivityPresenter presenter;
+
+    private MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new MainActivityPresenter(this, Repository.getInstance());
+        viewModel = new ViewModelProvider(
+                this,
+                InjectorUtils.provideMainActivityViewModelFactory(getApplicationContext())
+        ).get(MainActivityViewModel.class);
 
         initUI();
+        initListeners();
         if (savedInstanceState != null) {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(SAVED_MOVIES_STATE);
             moviesAdapter.setMovieList(movieList);
         } else {
             toggleProgress(true);
-            presenter.fetchPopularMovies();
+            viewModel.fetchPopularOrTopRatedMovies(false);
         }
     }
 
@@ -71,26 +78,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         });
     }
 
-    @Override
+    private void initListeners() {
+        viewModel.getMovieList().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movieList) {
+                toggleProgress(false);
+                moviesAdapter.setMovieList(movieList);
+            }
+        });
+    }
+
     public void toggleProgress(boolean state) {
         progressBar.setVisibility(state ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void showErrorMsg(String msg) {
-        runOnUiThread(() -> {
-            toggleProgress(false);
-            errMsg.setText(msg);
-        });
-    }
-
-    @Override
-    public void displayResults(List<Movie> movieList) {
-        runOnUiThread(() -> {
-            moviesAdapter.setMovieList(movieList);
-            toggleProgress(false);
-            showErrorMsg(null);
-        });
     }
 
     @Override
@@ -111,14 +110,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         switch (item.getItemId()) {
             case R.id.most_popular:
                 toggleProgress(true);
-                presenter.fetchPopularMovies();
+                viewModel.fetchPopularOrTopRatedMovies(false);
                 return true;
             case R.id.top_rated:
                 toggleProgress(true);
-                presenter.fetchTopRatedMovies();
+                viewModel.fetchPopularOrTopRatedMovies(true);
                 return true;
             case R.id.favorites:
-                // TODO Show favorite movies
+                toggleProgress(true);
+                viewModel.fetchFavoriteMovies();
                 return true;
         }
         return super.onOptionsItemSelected(item);

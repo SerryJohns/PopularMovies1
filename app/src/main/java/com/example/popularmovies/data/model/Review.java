@@ -65,6 +65,14 @@ public class Review implements Parcelable {
         return 0;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public int getMovieCreatorId() {
+        return movieCreatorId;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);

@@ -57,7 +57,7 @@ public class Trailer implements Parcelable {
         }
     };
 
-    private Uri getUri() {
+    public Uri getUri() {
         String baseUrl = "https://www.youtube.com/watch";
         return Uri.parse(baseUrl).buildUpon()
                 .appendQueryParameter("v", uriKey)
@@ -79,6 +79,14 @@ public class Trailer implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getUriKey() {
+        return uriKey;
     }
 
     @Override

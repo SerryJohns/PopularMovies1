@@ -125,4 +125,8 @@ public class Movie implements Parcelable {
     public Double getVoteAverage() {
         return voteAverage;
     }
+
+    public boolean isTopRated() {
+        return topRated;
+    }
 }

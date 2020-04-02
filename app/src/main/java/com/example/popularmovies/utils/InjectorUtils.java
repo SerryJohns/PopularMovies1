@@ -8,6 +8,8 @@ import com.example.popularmovies.data.local.AppDatabase;
 import com.example.popularmovies.data.local.MovieRepository;
 import com.example.popularmovies.data.local.ReviewRepository;
 import com.example.popularmovies.data.local.TrailerRepository;
+import com.example.popularmovies.ui.detail.DetailActivityViewModelFactory;
+import com.example.popularmovies.ui.main.MainActivityViewModelFactory;
 
 public class InjectorUtils {
     public static Repository provideRepository(Context context) {
@@ -16,7 +18,8 @@ public class InjectorUtils {
                 provideMovieRepository(context),
                 provideTrailerRepository(context),
                 provideReviewRepository(context),
-                getAppExecutors());
+                getAppExecutors(),
+                context);
     }
 
     public static OnlineDataSource provideOnlineDataSource(Context context) {
@@ -25,7 +28,8 @@ public class InjectorUtils {
 
     public static MovieRepository provideMovieRepository(Context context) {
         return MovieRepository.getInstance(
-                AppDatabase.getInstance(context).movieDao());
+                AppDatabase.getInstance(context).movieDao(),
+                getAppExecutors());
     }
 
     public static ReviewRepository provideReviewRepository(Context context) {
@@ -40,5 +44,13 @@ public class InjectorUtils {
 
     public static AppExecutors getAppExecutors() {
         return AppExecutors.getInstance();
+    }
+
+    public static MainActivityViewModelFactory provideMainActivityViewModelFactory(Context context) {
+        return new MainActivityViewModelFactory(provideRepository(context));
+    }
+
+    public static DetailActivityViewModelFactory provideDetailActivityViewModelFactory(Context context) {
+        return new DetailActivityViewModelFactory(provideRepository(context));
     }
 }

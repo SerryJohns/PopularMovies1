@@ -1,10 +1,12 @@
 package com.example.popularmovies.data.local;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.popularmovies.data.model.Movie;
 import com.example.popularmovies.data.model.MovieWithReviews;
 import com.example.popularmovies.data.model.MovieWithTrailers;
+import com.example.popularmovies.utils.AppExecutors;
 
 import java.util.List;
 
@@ -12,15 +14,17 @@ public class MovieRepository {
     private static MovieRepository movieRepository;
     private static final Object LOCK = new Object();
     private final MovieDao movieDao;
+    private final AppExecutors executors;
 
-    private MovieRepository(MovieDao movieDao) {
+    private MovieRepository(MovieDao movieDao, AppExecutors executors) {
         this.movieDao = movieDao;
+        this.executors = executors;
     }
 
-    public static MovieRepository getInstance(MovieDao movieDao) {
+    public static MovieRepository getInstance(MovieDao movieDao, AppExecutors executors) {
         if (movieRepository == null) {
             synchronized (LOCK) {
-                movieRepository = new MovieRepository(movieDao);
+                movieRepository = new MovieRepository(movieDao, executors);
             }
         }
         return movieRepository;
@@ -31,7 +35,11 @@ public class MovieRepository {
     }
 
     public LiveData<List<Movie>> getFavoriteMovies(boolean isFavorite) {
-        return movieDao.getMovies(isFavorite);
+        MutableLiveData<List<Movie>> movieLiveData = new MutableLiveData<>();
+        executors.getDiskIO().execute(() -> {
+            movieLiveData.postValue(movieDao.getFavoriteMovies(isFavorite).getValue());
+        });
+        return movieLiveData;
     }
 
     public LiveData<MovieWithTrailers> getMovieTrailers(int movieId) {
