@@ -26,6 +26,10 @@
         <activity
             android:name=".ui.detail.DetailActivity"
             android:parentActivityName=".ui.main.MainActivity" />
+
+        <service
+            android:name=".data.api.MoviesSyncIntentService"
+            android:exported="false" />
     </application>
 
 </manifest>

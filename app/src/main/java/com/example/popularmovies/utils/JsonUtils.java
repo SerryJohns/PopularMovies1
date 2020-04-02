@@ -32,7 +32,7 @@ public class JsonUtils {
     private static final String AUTHOR = "author";
     private static final String CONTENT = "content";
 
-    public static List<Movie> parseMovieList(String result) {
+    public static List<Movie> parseMovieList(String result, boolean isTopRated) {
         List<Movie> movieList = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(result);
@@ -48,7 +48,7 @@ public class JsonUtils {
                 Double voteAverage = movieObj.getDouble(VOTE_AVERAGE);
                 LocalDate date = LocalDate.parse(releaseDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-                Movie movie = new Movie(ID, title, date, posterPath, overview, voteAverage);
+                Movie movie = new Movie(ID, title, date, posterPath, overview, voteAverage, false, isTopRated);
                 movieList.add(movie);
             }
         } catch (JSONException e) {
@@ -57,7 +57,7 @@ public class JsonUtils {
         return movieList;
     }
 
-    public static List<Trailer> parseMovieTrailersList(String result) {
+    public static List<Trailer> parseMovieTrailersList(String result, int movieId) {
         List<Trailer> trailerList = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(result);
@@ -69,7 +69,7 @@ public class JsonUtils {
                 String name = trailerObj.getString(NAME);
                 String type = trailerObj.getString(TYPE);
 
-                Trailer trailer = new Trailer(key, name, type);
+                Trailer trailer = new Trailer(movieId, key, name, type);
                 trailerList.add(trailer);
             }
         } catch (JSONException e) {
@@ -78,7 +78,7 @@ public class JsonUtils {
         return trailerList;
     }
 
-    public static List<Review> parseMovieReviewList(String result) {
+    public static List<Review> parseMovieReviewList(String result, int movieId) {
         List<Review> reviewList = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(result);
@@ -89,7 +89,7 @@ public class JsonUtils {
                 String author = reviewObj.getString(AUTHOR);
                 String content = reviewObj.getString(CONTENT);
 
-                Review review = new Review(author, content);
+                Review review = new Review(movieId, author, content);
                 reviewList.add(review);
             }
         } catch (JSONException e) {

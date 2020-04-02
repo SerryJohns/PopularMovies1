@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
@@ -22,21 +21,33 @@ public class Movie implements Parcelable {
     @ColumnInfo(name = "poster_path")
     private String posterPath;
 
-    private String title;
-    private String overview;
-    private boolean favorite = false;
-
     @ColumnInfo(name = "vote_average")
     private Double voteAverage;
 
-    @Ignore
-    public Movie(Integer movieId, String title, LocalDate releaseDate, String posterPath, String overview, Double voteAverage) {
+    @ColumnInfo(name = "top_rated")
+    private boolean topRated;
+
+    private boolean favorite;
+    private String title;
+    private String overview;
+
+    public Movie(Integer movieId,
+                 String title,
+                 LocalDate releaseDate,
+                 String posterPath,
+                 String overview,
+                 Double voteAverage,
+                 boolean favorite,
+                 boolean topRated
+    ) {
         this.movieId = movieId;
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.voteAverage = voteAverage;
         this.posterPath = this.setPosterPath(posterPath);
+        this.favorite = favorite;
+        this.topRated = topRated;
     }
 
     protected Movie(Parcel in) {
@@ -44,9 +55,10 @@ public class Movie implements Parcelable {
         title = in.readString();
         posterPath = in.readString();
         overview = in.readString();
-        favorite = in.readByte() != 0;
         voteAverage = in.readDouble();
         releaseDate = (LocalDate) in.readSerializable();
+        favorite = in.readByte() != 0;
+        topRated = in.readByte() != 0;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -72,9 +84,10 @@ public class Movie implements Parcelable {
         dest.writeString(title);
         dest.writeString(posterPath);
         dest.writeString(overview);
-        dest.writeByte((byte) (favorite ? 1 : 0));
         dest.writeDouble(voteAverage);
         dest.writeSerializable(releaseDate);
+        dest.writeByte((byte) (favorite ? 1 : 0));
+        dest.writeByte((byte) (topRated ? 1 : 0));
     }
 
     public Integer getMovieId() {

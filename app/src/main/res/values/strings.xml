@@ -12,4 +12,5 @@
     <string name="favorites_menu">Favorites</string>
     <string name="reviews_label_txt">User Reviews:</string>
     <string name="written_by_txt">Written by: %1$s</string>
+    <string name="msg_no_internet">No internet Connection!</string>
 </resources>
