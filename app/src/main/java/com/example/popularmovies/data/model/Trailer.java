@@ -17,22 +17,23 @@ public class Trailer implements Parcelable {
     @ColumnInfo(name = "movie_creator_id")
     private int movieCreatorId;
 
-    private String uriKey;
+    @ColumnInfo(name = "trailer_path")
+    private String trailerPath;
     private String name;
     private String type;
 
     @Ignore
-    public Trailer(int movieCreatorId, String uriKey, String name, String type) {
-        this.uriKey = uriKey;
+    public Trailer(int movieCreatorId, String trailerPath, String name, String type) {
+        this.trailerPath = trailerPath;
         this.name = name;
         this.type = type;
         this.movieCreatorId = movieCreatorId;
     }
 
-    public Trailer(int id, int movieCreatorId, String uriKey, String name, String type) {
+    public Trailer(int id, int movieCreatorId, String trailerPath, String name, String type) {
         this.id = id;
         this.movieCreatorId = movieCreatorId;
-        this.uriKey = uriKey;
+        this.trailerPath = trailerPath;
         this.name = name;
         this.type = type;
     }
@@ -40,7 +41,7 @@ public class Trailer implements Parcelable {
     protected Trailer(Parcel in) {
         id = in.readInt();
         movieCreatorId = in.readInt();
-        uriKey = in.readString();
+        trailerPath = in.readString();
         name = in.readString();
         type = in.readString();
     }
@@ -57,11 +58,12 @@ public class Trailer implements Parcelable {
         }
     };
 
-    public Uri getUri() {
+    public static String getUri(String path) {
         String baseUrl = "https://www.youtube.com/watch";
         return Uri.parse(baseUrl).buildUpon()
-                .appendQueryParameter("v", uriKey)
-                .build();
+                .appendQueryParameter("v", path)
+                .build()
+                .toString();
     }
 
     public String getName() {
@@ -85,15 +87,15 @@ public class Trailer implements Parcelable {
         return id;
     }
 
-    public String getUriKey() {
-        return uriKey;
+    public String getTrailerPath() {
+        return trailerPath;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeInt(movieCreatorId);
-        dest.writeString(uriKey);
+        dest.writeString(trailerPath);
         dest.writeString(name);
         dest.writeString(type);
     }

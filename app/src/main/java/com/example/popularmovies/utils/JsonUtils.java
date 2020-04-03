@@ -47,6 +47,7 @@ public class JsonUtils {
                 String overview = movieObj.getString(OVERVIEW);
                 Double voteAverage = movieObj.getDouble(VOTE_AVERAGE);
                 LocalDate date = LocalDate.parse(releaseDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                posterPath = Movie.posterPath(posterPath);
 
                 Movie movie = new Movie(ID, title, date, posterPath, overview, voteAverage, false, isTopRated);
                 movieList.add(movie);
@@ -69,7 +70,8 @@ public class JsonUtils {
                 String name = trailerObj.getString(NAME);
                 String type = trailerObj.getString(TYPE);
 
-                Trailer trailer = new Trailer(movieId, key, name, type);
+                String path = Trailer.getUri(key);
+                Trailer trailer = new Trailer(movieId, path, name, type);
                 trailerList.add(trailer);
             }
         } catch (JSONException e) {

@@ -3,6 +3,8 @@ package com.example.popularmovies.utils;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -48,7 +50,7 @@ public class AppExecutors {
         private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
         @Override
-        public void execute(Runnable command) {
+        public void execute(@NonNull Runnable command) {
             mainThreadHandler.post(command);
         }
     }

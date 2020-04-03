@@ -122,11 +122,6 @@ public class OnlineDataSource {
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
                 SeedDatabaseWorker.class, 6, TimeUnit.HOURS)
                 .setConstraints(constraints)
-                .setBackoffCriteria(
-                        BackoffPolicy.LINEAR,
-                        OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-                        TimeUnit.MILLISECONDS
-                )
                 .build();
         WorkManager.getInstance(context).enqueue(workRequest);
     }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MainActivityViewModel extends ViewModel {
     private Repository repository;
-    private LiveData<List<Movie>> movieList = new MutableLiveData<>();
+    private MutableLiveData<List<Movie>> movieList = new MutableLiveData<>();
 
     MainActivityViewModel(Repository repository) {
         this.repository = repository;
@@ -21,11 +21,15 @@ public class MainActivityViewModel extends ViewModel {
         return movieList;
     }
 
-    public void fetchPopularOrTopRatedMovies(boolean isTopRated) {
-        movieList = repository.getPopularOrTopRatedMovies(isTopRated);
+    public LiveData<List<Movie>> fetchPopularOrTopRatedMovies(boolean isTopRated) {
+        return repository.getPopularOrTopRatedMovies(isTopRated);
     }
 
-    public void fetchFavoriteMovies() {
-        movieList = repository.getMovieRepository().getFavoriteMovies(true);
+    public LiveData<List<Movie>> fetchFavoriteMovies() {
+        return repository.getMovieRepository().getFavoriteMovies(true);
+    }
+
+    public void setMovieList(List<Movie> movies) {
+        movieList.postValue(movies);
     }
 }

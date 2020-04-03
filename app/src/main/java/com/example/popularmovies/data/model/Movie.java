@@ -45,7 +45,7 @@ public class Movie implements Parcelable {
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.voteAverage = voteAverage;
-        this.posterPath = this.setPosterPath(posterPath);
+        this.posterPath = posterPath;
         this.favorite = favorite;
         this.topRated = topRated;
     }
@@ -94,8 +94,8 @@ public class Movie implements Parcelable {
         return movieId;
     }
 
-    private String setPosterPath(String posterPath) {
-        return "https://image.tmdb.org/t/p/w342/" + posterPath;
+    public static String posterPath(String posterPath) {
+        return "https://image.tmdb.org/t/p/w342" + posterPath;
     }
 
     public void setFavorite(boolean favorite) {

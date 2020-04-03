@@ -44,6 +44,7 @@ public class Repository {
         this.movieRepository = movieRepository;
         this.trailerRepository = trailerRepository;
         this.reviewRepository = reviewRepository;
+        this.executors = executors;
         this.mContext = context;
     }
 
@@ -161,7 +162,8 @@ public class Repository {
 
     public LiveData<List<Movie>> getPopularOrTopRatedMovies(boolean isTopRated) {
         initializeData();
-        return movieRepository.getMovies(isTopRated);
+        LiveData<List<Movie>> result = movieRepository.getMovies(isTopRated);
+        return result;
     }
 
     public MovieRepository getMovieRepository() {
