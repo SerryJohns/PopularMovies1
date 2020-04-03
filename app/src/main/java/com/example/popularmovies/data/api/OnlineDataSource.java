@@ -1,60 +1,128 @@
 package com.example.popularmovies.data.api;
 
+import android.content.Context;
+import android.net.Uri;
+
+import androidx.work.BackoffPolicy;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import com.example.popularmovies.data.model.Movie;
+import com.example.popularmovies.data.model.Review;
+import com.example.popularmovies.data.model.Trailer;
+import com.example.popularmovies.data.workers.SeedDatabaseWorker;
+import com.example.popularmovies.utils.AppExecutors;
 import com.example.popularmovies.utils.JsonUtils;
-import com.example.popularmovies.utils.NetworkUtils;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-public class OnlineDataSource implements OnlineRepository {
-    private ExecutorService executorService;
+public class OnlineDataSource {
+    private static final Object LOCK = new Object();
+    private static OnlineDataSource onlineDataSource;
+    private final AppExecutors executors;
+    private final Context context;
 
-    public OnlineDataSource() {
-        this.executorService = Executors.newSingleThreadExecutor();
+    private OnlineDataSource(Context context, AppExecutors executors) {
+        this.executors = executors;
+        this.context = context;
     }
 
-    @Override
+    public static OnlineDataSource getInstance(Context context, AppExecutors executors) {
+        if (onlineDataSource == null) {
+            synchronized (LOCK) {
+                onlineDataSource = new OnlineDataSource(context, executors);
+            }
+        }
+        return onlineDataSource;
+    }
+
     public void getMostPopularMovies(ResponseCallback<List<Movie>> callback) {
-        executorService.execute(() -> {
-            if (!NetworkUtils.isOnline()) {
-                callback.onError("No internet connection!");
-                return;
-            }
-
-            try {
-                String result = NetworkUtils.getResponseFromHttpUrl("movie/popular");
-                if (result != null) {
-                    List<Movie> movieList = JsonUtils.parseMovieListJson(result);
-                    callback.onSuccess(movieList);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                callback.onError(e.getMessage());
+        executors.getNetworkIO().execute(() -> {
+            Uri path = NetworkUtils.getBaseUrl().buildUpon()
+                    .appendEncodedPath("movie/popular")
+                    .build();
+            String result = execute(path, callback);
+            if (result != null) {
+                List<Movie> movieList = JsonUtils.parseMovieList(result, false);
+                callback.onSuccess(movieList);
             }
         });
     }
 
-    @Override
     public void getTopRatedMovies(ResponseCallback<List<Movie>> callback) {
-        executorService.execute(() -> {
-            if (!NetworkUtils.isOnline()) {
-                callback.onError("No internet Connection!");
-                return;
-            }
-
-            try {
-                String result = NetworkUtils.getResponseFromHttpUrl("movie/top_rated");
-                if (result != null) {
-                    List<Movie> movieList = JsonUtils.parseMovieListJson(result);
-                    callback.onSuccess(movieList);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                callback.onError(e.getMessage());
+        executors.getNetworkIO().execute(() -> {
+            Uri path = NetworkUtils.getBaseUrl().buildUpon()
+                    .appendEncodedPath("movie/top_rated")
+                    .build();
+            String result = execute(path, callback);
+            if (result != null) {
+                List<Movie> movieList = JsonUtils.parseMovieList(result, true);
+                callback.onSuccess(movieList);
             }
         });
+    }
+
+    public void getMovieTrailers(int movieId, ResponseCallback<List<Trailer>> callback) {
+        executors.getNetworkIO().execute(() -> {
+            Uri path = NetworkUtils.getBaseUrl().buildUpon()
+                    .appendEncodedPath("movie")
+                    .appendEncodedPath(Integer.toString(movieId))
+                    .appendEncodedPath("videos")
+                    .build();
+            String result = execute(path, callback);
+            if (result != null) {
+                List<Trailer> movieTrailers = JsonUtils.parseMovieTrailersList(result, movieId);
+                callback.onSuccess(movieTrailers);
+            }
+        });
+    }
+
+    public void getMovieReviews(int movieId, ResponseCallback<List<Review>> callback) {
+        executors.getNetworkIO().execute(() -> {
+            Uri path = NetworkUtils.getBaseUrl().buildUpon()
+                    .appendEncodedPath("movie")
+                    .appendEncodedPath(Integer.toString(movieId))
+                    .appendEncodedPath("reviews")
+                    .build();
+            String result = execute(path, callback);
+            if (result != null) {
+                List<Review> reviewList = JsonUtils.parseMovieReviewList(result, movieId);
+                callback.onSuccess(reviewList);
+            }
+        });
+    }
+
+    private String execute(Uri path, ResponseCallback callback) {
+        if (!NetworkUtils.isOnline()) {
+            callback.onError("No internet connection");
+            return null;
+        }
+        try {
+            return NetworkUtils.getResponseFromHttpUrl(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            callback.onError(e.getMessage());
+            return null;
+        }
+    }
+
+    public void scheduleRecurringMoviesSync() {
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)
+                .setRequiresDeviceIdle(true)
+                .build();
+
+        // Schedule work request for every 6 hours
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
+                SeedDatabaseWorker.class, 6, TimeUnit.HOURS)
+                .setConstraints(constraints)
+                .build();
+        WorkManager.getInstance(context).enqueue(workRequest);
     }
 }

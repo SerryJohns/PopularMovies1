@@ -3,34 +3,62 @@ package com.example.popularmovies.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDate;
 
+@Entity(tableName = "movie")
 public class Movie implements Parcelable {
-    private Integer ID;
-    private String title;
+    @PrimaryKey
+    @ColumnInfo(name = "movie_id")
+    private Integer movieId;
+
+    @ColumnInfo(name = "release_date")
     private LocalDate releaseDate;
+
+    @ColumnInfo(name = "poster_path")
     private String posterPath;
-    private String overview;
-    private boolean favorite = false;
+
+    @ColumnInfo(name = "vote_average")
     private Double voteAverage;
 
-    public Movie(Integer ID, String title, LocalDate releaseDate, String posterPath, String overview, Double voteAverage) {
-        this.ID = ID;
+    @ColumnInfo(name = "top_rated")
+    private boolean topRated;
+
+    private boolean favorite;
+    private String title;
+    private String overview;
+
+    public Movie(Integer movieId,
+                 String title,
+                 LocalDate releaseDate,
+                 String posterPath,
+                 String overview,
+                 Double voteAverage,
+                 boolean favorite,
+                 boolean topRated
+    ) {
+        this.movieId = movieId;
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.voteAverage = voteAverage;
-        this.setPosterPath(posterPath);
+        this.posterPath = posterPath;
+        this.favorite = favorite;
+        this.topRated = topRated;
     }
 
     protected Movie(Parcel in) {
-        ID = in.readInt();
+        movieId = in.readInt();
         title = in.readString();
         posterPath = in.readString();
         overview = in.readString();
-        favorite = in.readByte() != 0;
         voteAverage = in.readDouble();
         releaseDate = (LocalDate) in.readSerializable();
+        favorite = in.readByte() != 0;
+        topRated = in.readByte() != 0;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -52,21 +80,22 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(ID);
+        dest.writeInt(movieId);
         dest.writeString(title);
         dest.writeString(posterPath);
         dest.writeString(overview);
-        dest.writeByte((byte) (favorite ? 1 : 0));
         dest.writeDouble(voteAverage);
         dest.writeSerializable(releaseDate);
+        dest.writeByte((byte) (favorite ? 1 : 0));
+        dest.writeByte((byte) (topRated ? 1 : 0));
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getMovieId() {
+        return movieId;
     }
 
-    private void setPosterPath(String posterPath) {
-        this.posterPath = "https://image.tmdb.org/t/p/w342/" + posterPath;
+    public static String posterPath(String posterPath) {
+        return "https://image.tmdb.org/t/p/w342" + posterPath;
     }
 
     public void setFavorite(boolean favorite) {
@@ -95,5 +124,9 @@ public class Movie implements Parcelable {
 
     public Double getVoteAverage() {
         return voteAverage;
+    }
+
+    public boolean isTopRated() {
+        return topRated;
     }
 }

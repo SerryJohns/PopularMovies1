@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popularmovies.R;
 import com.example.popularmovies.data.model.Movie;
+import com.example.popularmovies.utils.ItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
     private List<Movie> movieList = Collections.emptyList();
-    private OnItemClickListener listener;
+    private ItemClickListener<Movie> listener;
 
     public MoviesAdapter() {
     }
@@ -36,7 +37,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return movieList.size();
+        return movieList != null ? movieList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,20 +59,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         }
     }
 
-    public void setListener(OnItemClickListener listener) {
+    public void setListener(ItemClickListener<Movie> listener) {
         this.listener = listener;
     }
 
     public void setMovieList(List<Movie> movieList) {
         this.movieList = movieList;
         this.notifyDataSetChanged();
-    }
-
-    public List<Movie> getMovieList() {
-        return movieList;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(Movie movie);
     }
 }
