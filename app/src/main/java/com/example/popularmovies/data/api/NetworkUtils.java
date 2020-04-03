@@ -15,12 +15,10 @@ import java.net.SocketAddress;
 import java.net.URL;
 
 public class NetworkUtils {
-    public static final String TAG = NetworkUtils.class.getSimpleName();
+    private static final String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/";
+    private static final String API_KEY = BuildConfig.API_KEY;
 
-    public static final String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/";
-    public static final String API_KEY = BuildConfig.API_KEY;
-
-    public static boolean isOnline() {
+    static boolean isOnline() {
         try {
             int timeoutMs = 1500;
             Socket socket = new Socket();
@@ -35,13 +33,13 @@ public class NetworkUtils {
         }
     }
 
-    public static Uri getBaseUrl() {
+    static Uri getBaseUrl() {
         return Uri.parse(MOVIE_DB_BASE_URL).buildUpon()
                 .appendQueryParameter("api_key", API_KEY)
                 .build();
     }
 
-    public static String getResponseFromHttpUrl(Uri path) throws IOException {
+    static String getResponseFromHttpUrl(Uri path) throws IOException {
         URL url = new URL(path.toString());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 

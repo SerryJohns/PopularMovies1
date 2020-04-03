@@ -73,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
     private void initMovieListListener() {
         viewModel.getMovieList().observe(this, movieList -> {
             toggleProgress(false);
+
+            if (movieList.size() == 0) {
+                errMsg.setVisibility(View.VISIBLE);
+                errMsg.setText(getString(R.string.msg_no_content));
+            } else {
+                errMsg.setVisibility(View.GONE);
+            }
+
             moviesAdapter.setMovieList(movieList);
         });
     }

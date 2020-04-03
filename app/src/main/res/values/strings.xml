@@ -13,4 +13,8 @@
     <string name="reviews_label_txt">User Reviews:</string>
     <string name="written_by_txt">Written by: %1$s</string>
     <string name="msg_no_internet">No internet Connection!</string>
+    <string name="txt_marked_as_favorite">Marked as Favorite</string>
+    <string name="txt_un_marked_as_favorite">Removed from Favorites</string>
+    <string name="err_launch_player">Couldn\'t launch player</string>
+    <string name="msg_no_content">No Movie Content!</string>
 </resources>

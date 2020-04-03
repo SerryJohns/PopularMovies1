@@ -1,7 +1,6 @@
 package com.example.popularmovies.data.local;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.popularmovies.data.model.Movie;
 import com.example.popularmovies.data.model.MovieWithReviews;
@@ -35,11 +34,7 @@ public class MovieRepository {
     }
 
     public LiveData<List<Movie>> getFavoriteMovies(boolean isFavorite) {
-        MutableLiveData<List<Movie>> movieLiveData = new MutableLiveData<>();
-        executors.getDiskIO().execute(() -> {
-            movieLiveData.postValue(movieDao.getFavoriteMovies(isFavorite).getValue());
-        });
-        return movieLiveData;
+        return movieDao.getFavoriteMovies(isFavorite);
     }
 
     public LiveData<MovieWithTrailers> getMovieTrailers(int movieId) {
@@ -54,12 +49,10 @@ public class MovieRepository {
         movieDao.insert(movies);
     }
 
-    public void deleteMovies(List<Movie> movies) {
-        movieDao.delete(movies);
-    }
-
-    public void updateMovies(List<Movie> movies) {
-        movieDao.update(movies);
+    public void updateMovie(Movie movie) {
+        executors.getDiskIO().execute(() -> {
+            movieDao.updateMove(movie);
+        });
     }
 
     public int getCount() {

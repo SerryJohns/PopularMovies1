@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.popularmovies.data.model.Movie;
 import com.example.popularmovies.data.model.MovieWithReviews;
@@ -33,4 +34,7 @@ public interface MovieDao extends BaseDao<Movie> {
 
     @Query("SELECT COUNT(movie_id) FROM movie")
     int getCount();
+
+    @Update
+    void updateMove(Movie movie);
 }
