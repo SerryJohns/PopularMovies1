@@ -23,4 +23,4 @@ Stage one of the Popular Movies App with the Main Discovery Screen, a details vi
 ### Screenshots
 
 <img src="screenshots/screen-1.png" height="400px"/> <img src="screenshots/screen-2.png" height="400px"/>
-<img src="screenshots/screen-3.png" height="400px"/>
+<img src="screenshots/screen-3.png" height="400px"/> <img src="screenshots/screen-4.png" height="400px"/>
