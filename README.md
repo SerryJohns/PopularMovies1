@@ -1,6 +1,6 @@
-# PopularMovies1
+# PopularMovies
 
-Stage one of the Popular Movies App with the Main Discovery Screen, a details view, and settings
+Popular Movies App with the Main Discovery Screen, a details view, and settings
 
 ### Project Set up
 
