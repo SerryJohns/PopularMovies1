@@ -3,10 +3,8 @@ package com.example.popularmovies.data.api;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -115,12 +113,11 @@ public class OnlineDataSource {
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
-                .setRequiresDeviceIdle(true)
                 .build();
 
         // Schedule work request for every 6 hours
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
-                SeedDatabaseWorker.class, 6, TimeUnit.HOURS)
+                SeedDatabaseWorker.class, 5, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build();
         WorkManager.getInstance(context).enqueue(workRequest);
