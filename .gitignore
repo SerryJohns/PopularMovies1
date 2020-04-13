@@ -16,3 +16,4 @@ app/bin/
 /captures
 .externalNativeBuild
 .cxx
+.settings/
